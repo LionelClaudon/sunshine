@@ -1,5 +1,6 @@
 package com.lionel.claudon.android.app;
 
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.util.Log;
 
@@ -19,16 +20,38 @@ public class FetchWeatherTask extends AsyncTask<String, Void, String> {
 
     @Override
     protected String doInBackground(String... params) {
+        if(params.length == 0) {
+            return null;
+        }
+
         HttpURLConnection urlConnection = null;
         BufferedReader reader = null;
 
         String forecastJsonStr = null;
 
         try {
-            // Construct the URL for the OpenWeatherMap query
-            // Possible parameters are available at OWM's forecast API page, at
-            // http://openweathermap.org/API#forecast
-            URL url = new URL("http://api.openweathermap.org/data/2.5/forecast/daily?q=94043&mode=json&units=metric&cnt=7");
+            // Default values
+            String postalCode = params[0];
+            String mode = "json";
+            String units = "metric";
+            int daysCount = 7;
+
+            String QUERY_POSTAL_CODE="q";
+            String QUERY_MODE="mode";
+            String QUERY_UNITS="units";
+            String QUERY_DAYS_NUMBER="cnt";
+            String BASE_FORECAST_FETCH_URI="http://api.openweathermap.org/data/2.5/forecast/daily";
+
+            Uri builtUri = Uri.parse(BASE_FORECAST_FETCH_URI).buildUpon()
+                    .appendQueryParameter(QUERY_POSTAL_CODE, postalCode)
+                    .appendQueryParameter(QUERY_MODE, mode)
+                    .appendQueryParameter(QUERY_UNITS, units)
+                    .appendQueryParameter(QUERY_DAYS_NUMBER, String.valueOf(daysCount)).build();
+
+
+            Log.v(LOG_TAG, "Built URI: " + builtUri.toString());
+
+            URL url = new URL(builtUri.toString());
 
             // Create the request to OpenWeatherMap, and open the connection
             urlConnection = (HttpURLConnection) url.openConnection();

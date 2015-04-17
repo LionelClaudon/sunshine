@@ -4,8 +4,8 @@ package com.lionel.claudon.android.app;
  * Created by lionel on 16/04/15.
  */
 
+import android.app.Fragment;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -67,7 +67,7 @@ public class ForecastFragment extends Fragment {
 
         if(id == R.id.action_refresh) {
             FetchWeatherTask fetchTask = new FetchWeatherTask();
-            fetchTask.execute();
+            fetchTask.execute("94043");
             return true;
         } else {
             return super.onContextItemSelected(item);
