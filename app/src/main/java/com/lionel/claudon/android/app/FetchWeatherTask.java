@@ -4,6 +4,8 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.util.Log;
 
+import org.json.JSONException;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -14,12 +16,12 @@ import java.net.URL;
 /**
  * Created by lionel on 16/04/15.
  */
-public class FetchWeatherTask extends AsyncTask<String, Void, String> {
+public class FetchWeatherTask extends AsyncTask<String, Void, String[]> {
 
     private final String LOG_TAG = FetchWeatherTask.class.getSimpleName();
 
     @Override
-    protected String doInBackground(String... params) {
+    protected String[] doInBackground(String... params) {
         if(params.length == 0) {
             return null;
         }
@@ -80,11 +82,17 @@ public class FetchWeatherTask extends AsyncTask<String, Void, String> {
                 forecastJsonStr = null;
             }
             forecastJsonStr = buffer.toString();
+
+            WeatherDataParser parser = new WeatherDataParser();
+
+            return parser.getWeatherDataFromJson(forecastJsonStr, 7);
         } catch (IOException e) {
             Log.e("ForecastFragment", "Error ", e);
             // If the code didn't successfully get the weather data, there's no point in attempting
             // to parse it.
             forecastJsonStr = null;
+        } catch (JSONException e) {
+            Log.e(LOG_TAG, "Failed to parse Forecast JSON", e);
         } finally{
             if (urlConnection != null) {
                 urlConnection.disconnect();
@@ -100,6 +108,6 @@ public class FetchWeatherTask extends AsyncTask<String, Void, String> {
 
         Log.v(LOG_TAG, "JSON received: " + forecastJsonStr);
 
-        return forecastJsonStr;
+        return new String[0];
     }
 }
