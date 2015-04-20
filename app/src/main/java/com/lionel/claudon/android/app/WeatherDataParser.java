@@ -47,7 +47,6 @@ public class WeatherDataParser {
 
         for(int i = 0; i<numDays; i++) {
             String result = "";
-            String day;
             JSONObject dayForecast = weatherArray.getJSONObject(i);
 
             long dateTime;
@@ -62,10 +61,6 @@ public class WeatherDataParser {
             result +=  " - " + formatMinMaxTemperatures(minTemp, maxTemp);
 
             resultStrs[i] = result;
-        }
-
-        for(String s : resultStrs) {
-            Log.v(LOG_TAG, "Forecast entry: " + s);
         }
 
         return resultStrs;
