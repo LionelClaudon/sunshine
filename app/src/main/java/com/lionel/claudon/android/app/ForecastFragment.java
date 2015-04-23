@@ -5,9 +5,11 @@ package com.lionel.claudon.android.app;
  */
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -34,6 +36,7 @@ import java.util.ArrayList;
  * A placeholder fragment containing a simple view.
  */
 public class ForecastFragment extends Fragment {
+    private static final String LOG_TAG = ForecastFragment.class.getSimpleName();
 
     ArrayAdapter<String> forecastAdapter;
 
@@ -79,12 +82,29 @@ public class ForecastFragment extends Fragment {
         int id = item.getItemId();
 
         if(id == R.id.action_refresh) {
-            FetchWeatherTask fetchTask = new FetchWeatherTask();
-            fetchTask.execute("94043");
+            updateWeather();
             return true;
         } else {
             return super.onContextItemSelected(item);
         }
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        updateWeather();
+    }
+
+    private void updateWeather() {
+        FetchWeatherTask fetchTask = new FetchWeatherTask();
+
+        //Get the locaton from settings
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        String locationPref = prefs.getString(getString(R.string.pref_location_key), getString(R.string.pref_location_default));
+
+        Log.i(LOG_TAG, "Fetching forecast for location " + locationPref);
+
+        fetchTask.execute(locationPref);
     }
 
     private class FetchWeatherTask extends AsyncTask<String, Void, String[]> {
@@ -183,6 +203,7 @@ public class ForecastFragment extends Fragment {
         @Override
         protected void onPostExecute(String[] strings) {
             for(String s : strings) {
+                forecastAdapter.clear();
                 forecastAdapter.add(s);
             }
         }
