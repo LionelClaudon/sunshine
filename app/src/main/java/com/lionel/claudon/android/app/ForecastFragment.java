@@ -84,8 +84,30 @@ public class ForecastFragment extends Fragment {
         if(id == R.id.action_refresh) {
             updateWeather();
             return true;
+        } else if (id == R.id.action_view_location) {
+            return viewUserLocation();
         } else {
             return super.onContextItemSelected(item);
+        }
+    }
+
+    private boolean viewUserLocation() {
+
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        String locationPref = prefs.getString(getString(R.string.pref_location_key), getString(R.string.pref_location_default));
+
+        Uri geo = Uri.parse("geo:0,0?git status").buildUpon()
+                .appendQueryParameter("q", locationPref).build();
+
+        Intent viewLocationIntent = new Intent(Intent.ACTION_VIEW);
+        viewLocationIntent.setData(geo);
+
+
+        if(viewLocationIntent.resolveActivity(getActivity().getPackageManager()) != null) {
+            startActivity(viewLocationIntent);
+            return true;
+        } else {
+            return false;
         }
     }
 
