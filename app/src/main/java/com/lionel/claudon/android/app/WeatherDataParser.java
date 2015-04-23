@@ -1,5 +1,8 @@
 package com.lionel.claudon.android.app;
 
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.text.format.Time;
 import android.util.Log;
 
@@ -15,6 +18,11 @@ import java.text.SimpleDateFormat;
 public class WeatherDataParser {
 
     private static final String LOG_TAG = WeatherDataParser.class.getSimpleName();
+    private final Context context;
+
+    public WeatherDataParser(Context context) {
+        this.context = context;
+    }
 
     private String getReadableDateString(long time) {
         SimpleDateFormat dF = new SimpleDateFormat("EEE MMM dd");
@@ -22,7 +30,20 @@ public class WeatherDataParser {
     }
 
     private String formatMinMaxTemperatures(double min, double max) {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+
+        String unitPref = prefs.getString(context.getString(R.string.pref_unit_key), context.getString(R.string.pref_unit_value_metric));
+
+        if(unitPref.equals(context.getString(R.string.pref_unit_value_imperial))) {
+            min = min * 1.8 + 32;
+            max = max * 1.8 + 32;
+        } else if(!unitPref.equals(context.getString(R.string.pref_unit_value_metric))) {
+            Log.i(LOG_TAG, "Unit type not found: " + unitPref);
+
+        }
+
         return Math.round(min) + " / " + Math.round(max);
+
     }
 
     public String[] getWeatherDataFromJson(String jsonStr, int numDays) throws JSONException {

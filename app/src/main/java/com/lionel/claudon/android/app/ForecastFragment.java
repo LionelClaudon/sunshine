@@ -174,7 +174,7 @@ public class ForecastFragment extends Fragment {
                 }
                 forecastJsonStr = buffer.toString();
 
-                WeatherDataParser parser = new WeatherDataParser();
+                WeatherDataParser parser = new WeatherDataParser(getActivity());
 
                 return parser.getWeatherDataFromJson(forecastJsonStr, daysCount);
             } catch (IOException e) {
@@ -202,8 +202,9 @@ public class ForecastFragment extends Fragment {
 
         @Override
         protected void onPostExecute(String[] strings) {
+            forecastAdapter.clear();
+
             for(String s : strings) {
-                forecastAdapter.clear();
                 forecastAdapter.add(s);
             }
         }
