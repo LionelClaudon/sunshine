@@ -1,7 +1,6 @@
-package com.lionel.claudon.android.app;
+package com.lionel.claudon.android.app.sunshine;
 
 import android.text.format.Time;
-import android.util.Log;
 
 import org.json.JSONArray;
 import org.json.JSONException;

@@ -1,4 +1,4 @@
-package com.lionel.claudon.android.app;
+package com.lionel.claudon.android.app.sunshine;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,6 +10,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
+import com.lionel.claudon.android.app.R;
 
 
 public class DetailActivity extends ActionBarActivity {
