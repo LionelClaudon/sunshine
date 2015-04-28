@@ -4,7 +4,11 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     android:paddingBottom="@dimen/activity_vertical_margin"
+<<<<<<< HEAD
     tools:context="com.lionel.claudon.android.app.DetailActivity.DetailFragment">
+=======
+    tools:context="com.lionel.claudon.android.app.sunshine.DetailActivity$PlaceholderFragment">
+>>>>>>> 71906419e86f9eabfa1f86c0a50fa563ebc8c980
 
     <TextView
         android:id="@+id/detailText"

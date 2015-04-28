@@ -1,4 +1,4 @@
-package com.lionel.claudon.android.app;
+package com.lionel.claudon.android.app.sunshine;
 
 /**
  * Created by lionel on 16/04/15.
@@ -21,6 +21,8 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+
+import com.lionel.claudon.android.app.R;
 
 import org.json.JSONException;
 
