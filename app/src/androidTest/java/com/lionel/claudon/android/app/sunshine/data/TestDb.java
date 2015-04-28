@@ -111,23 +111,38 @@ public class TestDb extends AndroidTestCase {
         also make use of the ValidateCurrentRecord function from within TestUtilities.
     */
     public void testLocationTable() {
-        // First step: Get reference to writable database
+        String testLocationSetting = "99705";
+        String testCityName = "North Pole";
+        double testLatitude = 64.7488;
+        double testLongitude = -147.353;
 
-        // Create ContentValues of what you want to insert
-        // (you can use the createNorthPoleLocationValues if you wish)
+        WeatherDbHelper dbHelper = new WeatherDbHelper(this.mContext);
+
+        // First step: Get reference to writable database
+        SQLiteDatabase locationDb = dbHelper.getWritableDatabase();
+        assertTrue(locationDb.isOpen());
 
         // Insert ContentValues into database and get a row ID back
+        long rowId = TestUtilities.insertNorthPoleLocationValues(this.mContext);
 
         // Query the database and receive a Cursor back
+        Cursor cursor = locationDb.query(true, WeatherContract.LocationEntry.TABLE_NAME, null, null, null, null, null, null, null);
 
         // Move the cursor to a valid database row
+        if(cursor.moveToFirst()) {
+            // Validate data in resulting Cursor with the original ContentValues
+            // (you can use the validateCurrentRecord function in TestUtilities to validate the
+            // query if you like)
+            assertEquals(cursor.getString(1), testLocationSetting);
+            assertEquals(cursor.getString(2), testCityName);
+            assertEquals(cursor.getDouble(3), testLatitude);
+            assertEquals(cursor.getDouble(4), testLongitude);
+        }
 
-        // Validate data in resulting Cursor with the original ContentValues
-        // (you can use the validateCurrentRecord function in TestUtilities to validate the
-        // query if you like)
 
         // Finally, close the cursor and database
-
+        cursor.close();
+        locationDb.close();
     }
 
     /*
