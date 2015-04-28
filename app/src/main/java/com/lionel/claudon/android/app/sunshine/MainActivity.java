@@ -8,6 +8,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.lionel.claudon.android.app.R;
+import com.lionel.claudon.android.app.SettingsActivity;
 
 
 public class MainActivity extends ActionBarActivity {

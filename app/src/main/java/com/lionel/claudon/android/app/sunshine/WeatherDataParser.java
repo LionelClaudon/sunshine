@@ -4,6 +4,9 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.text.format.Time;
+import android.util.Log;
+
+import com.lionel.claudon.android.app.R;
 
 import org.json.JSONArray;
 import org.json.JSONException;

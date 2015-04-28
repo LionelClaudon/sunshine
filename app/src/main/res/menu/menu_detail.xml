@@ -1,12 +1,9 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-<<<<<<< HEAD
-    tools:context="com.lionel.claudon.android.app.DetailActivity">
-
-=======
     tools:context="com.lionel.claudon.android.app.sunshine.DetailActivity">
->>>>>>> 71906419e86f9eabfa1f86c0a50fa563ebc8c980
+
+
     <item android:id="@+id/action_settings" android:title="@string/action_settings"
         android:orderInCategory="100" app:showAsAction="never" />
 
