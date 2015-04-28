@@ -133,11 +133,10 @@ public class TestDb extends AndroidTestCase {
             // Validate data in resulting Cursor with the original ContentValues
             // (you can use the validateCurrentRecord function in TestUtilities to validate the
             // query if you like)
-            assertEquals(cursor.getString(1), testLocationSetting);
-            assertEquals(cursor.getString(2), testCityName);
-            assertEquals(cursor.getDouble(3), testLatitude);
-            assertEquals(cursor.getDouble(4), testLongitude);
+            TestUtilities.validateCurrentRecord("Error: Location Query Validation Failed", cursor, TestUtilities.createNorthPoleLocationValues());
         }
+
+        assertFalse("Error: More than one record reurned from location query", cursor.moveToNext());
 
 
         // Finally, close the cursor and database
