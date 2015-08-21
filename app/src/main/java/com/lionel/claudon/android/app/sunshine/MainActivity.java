@@ -11,17 +11,38 @@ public class MainActivity extends ActionBarActivity {
 
     private final static String LOG_TAG = MainActivity.class.getSimpleName();
 
+    private String currentLocation;
+
+    private final String FORECASTFRAGMENT_TAG = "FFTAG";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()
-                    .add(R.id.container, new ForecastFragment())
+                    .add(R.id.container, new ForecastFragment(), FORECASTFRAGMENT_TAG)
                     .commit();
         }
+
+        currentLocation = Utility.getPreferredLocation(this);
     }
 
+    @Override
+    protected void onResume() {
+        Log.i(LOG_TAG, "Method called: onResume()");
+
+        super.onResume();
+        String location = Utility.getPreferredLocation( this );
+        // update the location in our second pane using the fragment manager
+        if (location != null && !location.equals(currentLocation)) {
+            ForecastFragment ff = (ForecastFragment)getSupportFragmentManager().findFragmentByTag(FORECASTFRAGMENT_TAG);
+            if ( null != ff ) {
+                ff.onLocationChanged();
+            }
+            currentLocation = location;
+        }
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -64,13 +85,6 @@ public class MainActivity extends ActionBarActivity {
         Log.i(LOG_TAG, "Method called: onStart()");
 
         super.onStart();
-    }
-
-    @Override
-    protected void onResume() {
-        Log.i(LOG_TAG, "Method called: onResume()");
-
-        super.onResume();
     }
 
     @Override
