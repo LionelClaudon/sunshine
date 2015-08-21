@@ -6,8 +6,6 @@ import android.preference.PreferenceManager;
 import android.text.format.Time;
 import android.util.Log;
 
-import com.lionel.claudon.android.app.R;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -34,12 +32,12 @@ public class WeatherDataParser {
     private String formatMinMaxTemperatures(double min, double max) {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
 
-        String unitPref = prefs.getString(context.getString(R.string.pref_unit_key), context.getString(R.string.pref_unit_value_metric));
+        String unitPref = prefs.getString(context.getString(R.string.pref_units_key), context.getString(R.string.pref_units_value_metric));
 
-        if(unitPref.equals(context.getString(R.string.pref_unit_value_imperial))) {
+        if(unitPref.equals(context.getString(R.string.pref_units_value_imperial))) {
             min = min * 1.8 + 32;
             max = max * 1.8 + 32;
-        } else if(!unitPref.equals(context.getString(R.string.pref_unit_value_metric))) {
+        } else if(!unitPref.equals(context.getString(R.string.pref_units_value_metric))) {
             Log.i(LOG_TAG, "Unit type not found: " + unitPref);
 
         }

@@ -15,9 +15,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.lionel.claudon.android.app.R;
-import com.lionel.claudon.android.app.SettingsActivity;
-
 
 public class DetailActivity extends ActionBarActivity {
 
