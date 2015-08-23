@@ -8,6 +8,8 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.lionel.claudon.android.app.sunshine.sync.SunshineSyncAdapter;
+
 public class MainActivity extends ActionBarActivity implements ForecastFragment.Callback {
 
     private final static String LOG_TAG = MainActivity.class.getSimpleName();
@@ -47,6 +49,8 @@ public class MainActivity extends ActionBarActivity implements ForecastFragment.
         forecastFragment.setUseTodayLayout(!isTwoPanes);
 
         currentLocation = Utility.getPreferredLocation(this);
+
+        SunshineSyncAdapter.initializeSyncAdapter(this);
     }
 
     @Override
