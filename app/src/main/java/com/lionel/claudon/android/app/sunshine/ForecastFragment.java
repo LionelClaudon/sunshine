@@ -4,6 +4,9 @@ package com.lionel.claudon.android.app.sunshine;
  * Created by lionel on 16/04/15.
  */
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
@@ -14,7 +17,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -25,6 +27,7 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.lionel.claudon.android.app.sunshine.data.WeatherContract;
+import com.lionel.claudon.android.app.sunshine.service.SunshineService;
 
 /**
  * A placeholder fragment containing a simple view.
@@ -34,7 +37,7 @@ public class ForecastFragment extends Fragment implements LoaderManager.LoaderCa
     private static final String LOG_TAG = ForecastFragment.class.getSimpleName();
     private static final String SELECTED_KEY = "key";
 
-    private int itemPosition;
+    private int itemPosition = ListView.INVALID_POSITION;
 
     private static final String[] FORECAST_COLUMNS = {
             // In this case the id needs to be fully qualified with a table name, since
@@ -187,15 +190,16 @@ public class ForecastFragment extends Fragment implements LoaderManager.LoaderCa
     }
 
     private void updateWeather() {
-        FetchWeatherTask fetchTask = new FetchWeatherTask(getActivity());
+        Intent alarmIntent = new Intent(getActivity(), SunshineService.AlarmReceiver.class);
+        alarmIntent.putExtra(SunshineService.LOCATION_QUERY_EXTRA, Utility.getPreferredLocation(getActivity()));
 
-        //Get the locaton from settings
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
-        String locationPref = prefs.getString(getString(R.string.pref_location_key), getString(R.string.pref_location_default));
+        //Wrap in a pending intent which only fires once.
+        PendingIntent pi = PendingIntent.getBroadcast(getActivity(), 0, alarmIntent,PendingIntent.FLAG_ONE_SHOT);//getBroadcast(context, 0, i, 0);
 
-        Log.i(LOG_TAG, "Fetching forecast for location " + locationPref);
+        AlarmManager am=(AlarmManager)getActivity().getSystemService(Context.ALARM_SERVICE);
 
-        fetchTask.execute(locationPref);
+        //Set the AlarmManager to wake up the system.
+        am.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + 5000, pi);
     }
 
     @Override
