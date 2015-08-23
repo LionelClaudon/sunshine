@@ -224,6 +224,9 @@ public class ForecastFragment extends Fragment implements LoaderManager.LoaderCa
         forecastAdapter.swapCursor(data);
         if(itemPosition != ListView.INVALID_POSITION) {
             forecastListView.smoothScrollToPosition(itemPosition);
+        } else {
+            itemPosition = 0;
+            forecastListView.setItemChecked(itemPosition, true);
         }
     }
 

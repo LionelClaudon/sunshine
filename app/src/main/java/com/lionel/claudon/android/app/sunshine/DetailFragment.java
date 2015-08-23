@@ -96,6 +96,14 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
         Bundle args = getArguments();
         if(args != null) {
             uri = args.getParcelable(DETAIL_URI);
+        } else {
+            /* This bugged me. I took a different approach that does not appear to have unintended side-effects
+            & is not entirely inelegant. In DetailFragment.java onCreateView, if the URI is not defined in the bundle,
+            it is created for today's date. On the initial load, this flows through to populate the details view.
+            https://discussions.udacity.com/t/lesson-5-no-details-when-application-starts/22093/4 */
+            String locationSetting = Utility.getPreferredLocation(getActivity());
+            long epochTime = System.currentTimeMillis();
+            uri = WeatherContract.WeatherEntry.buildWeatherLocationWithDate(locationSetting, epochTime);
         }
 
         View rootView = inflater.inflate(R.layout.fragment_detail, container, false);
