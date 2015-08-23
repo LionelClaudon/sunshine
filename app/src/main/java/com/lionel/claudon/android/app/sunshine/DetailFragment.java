@@ -177,6 +177,10 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
             String description = data.getString(COL_WEATHER_DESC);
             mDescriptionView.setText(description);
 
+            // For accessibility, add a content description to the icon field
+            mIconView.setContentDescription(description);
+
+
             // Read high temperature from cursor and update view
             boolean isMetric = Utility.isMetric(getActivity());
 
@@ -227,5 +231,4 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
             getLoaderManager().restartLoader(DETAIL_LOADER, null, this);
         }
     }
-
 }

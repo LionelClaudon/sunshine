@@ -80,6 +80,9 @@ public class ForecastAdapter extends CursorAdapter {
         String weatherDescription = cursor.getString(ForecastFragment.COL_WEATHER_DESC);
         viewHolder.descriptionView.setText(weatherDescription);
 
+        // For accessibility, add a content description to the icon field
+        viewHolder.iconView.setContentDescription(weatherDescription);
+
         // Read user preference for metric or imperial temperature units
         boolean isMetric = Utility.isMetric(context);
 
@@ -117,5 +120,4 @@ public class ForecastAdapter extends CursorAdapter {
             lowTempView = (TextView) view.findViewById(R.id.list_item_low_textview);
         }
     }
-
 }
